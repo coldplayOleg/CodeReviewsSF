@@ -1,0 +1,7 @@
+Create trigger:
+
+if contact is inserted or changed and his related account's name has word test
+--> send email to current user with the list of contacts (FirstNAme + LAstName) in a body of email
+
+Test scenario:
+create new 150 contacts and as a result receive email with names
