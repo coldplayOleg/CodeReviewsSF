@@ -12,18 +12,17 @@ public class SearchManager {
     }
     
     public Boolean searchContact(){
-        String contactName = '';
         List<String> contactsList = new List<String>();
         Id userId = UserInfo.getUserId();
         User currentUser =[SELECT Email FROM User WHERE Id=:userId];
         String addresUser = String.valueOf(currentUser.Email);
-
+        Contact firstContact = contacts.get(0);
+		ID acctID = firstContact.AccountId;
+        Account account = [SELECT Name FROM Account WHERE Id=:acctID LIMIT 1];
+        
         for(Contact contact : contacts){
-            ID acctID = contact.AccountId;
-            Account account = [SELECT Name FROM Account WHERE Id=:acctID];
             if(account.Name.equals(searchText)){
-                contactName = contact.FirstName +' '+ contact.LastName;
-                contactsList.add(contactName);
+                contactsList.add(contact.FirstName +' '+ contact.LastName);
              }
         }
         if (contactsList.size() > 0) {
