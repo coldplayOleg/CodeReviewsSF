@@ -13,18 +13,16 @@ public class SearchManager {
     
     public Boolean searchContact(){
         List<String> contactsList = new List<String>();
-        Id userId = UserInfo.getUserId();
-        User currentUser =[SELECT Email FROM User WHERE Id=:userId];
+        User currentUser =[SELECT Email FROM User WHERE Id=:UserInfo.getUserId()];
         String addresUser = String.valueOf(currentUser.Email);
-        Contact firstContact = contacts.get(0);
-		ID acctID = firstContact.AccountId;
-        Account account = [SELECT Name FROM Account WHERE Id=:acctID LIMIT 1];
-        
+        Account searchAccount = [SELECT Id, Name FROM Account WHERE Name=:searchText LIMIT 1];
+		
         for(Contact contact : contacts){
-            if(account.Name.equals(searchText)){
+            if(contact.AccountId.equals(searchAccount.Id)){
                 contactsList.add(contact.FirstName +' '+ contact.LastName);
              }
         }
+        
         if (contactsList.size() > 0) {
             body += String.join(contactsList,',');
             EmailManager.sendMail(addresUser, subject, body);
