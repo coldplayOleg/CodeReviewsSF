@@ -4,11 +4,11 @@ public class SearchManager {
     String body;
     List<Contact> contacts;
 	
-    public SearchManager(String searchText, String subject, String body, object[] newTrigger) {
+    public SearchManager(String searchText, String subject, String body, List<Contact> contacts) {
         this.searchText = searchText;
         this.subject = subject;
         this.body = body;
-      	this.contacts = (List<Contact>) newTrigger;
+      	this.contacts = contacts;
     }
     
     public Boolean searchContact(){
