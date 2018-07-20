@@ -1,0 +1,8 @@
+Create batch which will delete all contacts:
+- if related account name has insensitive word 'test' or 'Test' or 'TESt' etc
+- were changed within last 24h
+- this batch should run every night at 1am
+
+--> send email to 'smol4uk@gmail.com' (this email is not hardcoded, please create Custom Metadata Type 'Gloval Variables') with the result 
+	- SUCCESS : e.g. 150 contacts were removed
+	- FAIL : if batch failed send error details
