@@ -26,7 +26,17 @@ public class ContactTriggerHandler {
     
     public Boolean contactWithAccountId(String searchText, String subject, String body, List<Contact> contacts){
         List<String> contactsList = new List<String>();
-        Account searchAccount = AccountRepository.findOneAccountByNameLike(searchText);
+        List<Account> accounts = AccountRepository.findAllAccounts();
+        Account searchAccount = new Account();
+        
+        if (accounts.size() > 0 ) {
+            for(Account account : accounts){
+                if(account.Name.containsIgnoreCase(searchText)){
+                    searchAccount = account;
+                 }
+        	}
+        }
+        
         if (searchAccount.Id != null) {
             for(Contact contact : contacts){
                 if(contact.AccountId.equals(searchAccount.Id)){
@@ -42,6 +52,6 @@ public class ContactTriggerHandler {
             return true;
         }
         return false;
-   }
+	}
     
 }

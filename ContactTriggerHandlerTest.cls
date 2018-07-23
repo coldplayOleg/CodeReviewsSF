@@ -1,7 +1,6 @@
 @isTest
 public class ContactTriggerHandlerTest {
     
-    
     @isTest 
     static void sendMail_1() {
         ContactTriggerHandler contactTH = new ContactTriggerHandler();
@@ -37,6 +36,6 @@ public class ContactTriggerHandlerTest {
         contactTH.contactWithAccountId('Account3', 'subject', 'body', contacts);
         
         System.assertEquals(75, searchCon.size());
-    }
+	}
     
 }

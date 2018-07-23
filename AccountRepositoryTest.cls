@@ -1,7 +1,6 @@
 @isTest
 public class AccountRepositoryTest {
-	
-    @isTest 
+	@isTest 
     static void findOneAccountByNameLike_1() {
         List<Account> accounts = TestDataFactory.createAccounts(10);
         Account acc = AccountRepository.findOneAccountByNameLike('Account3');
@@ -26,6 +25,5 @@ public class AccountRepositoryTest {
     static void findAllAccounts_2() {
         List<Account> accountsAll = AccountRepository.findAllAccounts();
         System.assertEquals(0, accountsAll.size());
-    }
-    
+}    
 }
