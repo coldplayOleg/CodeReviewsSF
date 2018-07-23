@@ -33,7 +33,7 @@ global class ContactBatch implements Database.Batchable<sObject>, Database.State
         List<Contact> contactsWithId = ContactRepository.findAllContactWhereAccountId(searchAccount.Id);
         List<Contact> contactsToDelete = new List<Contact>();
         for (Contact contact : contactsWithId){
-            if(contact.LastModifiedDate.addHours(24) <= Datetime.now()) {
+            if(contact.LastModifiedDate >= Datetime.now().addHours(-24)) {
                 contactsToDelete.add(contact);
                 recordsProcessed++;
             }
