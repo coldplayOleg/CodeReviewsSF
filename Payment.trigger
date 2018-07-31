@@ -2,13 +2,13 @@ trigger Payment on Payment__c (before insert, before update, before delete, afte
     
 	if (Trigger.isAfter) {
         
-        PaymentTriggerHandler pth = new PaymentTriggerHandler();
-        if (Trigger.isInsert || Trigger.isUpdate) {
-        	pth.updatePatient(Trigger.New, true);
-        }
-        if (Trigger.isDelete) {
-        	pth.updatePatient(Trigger.Old, false);
-    	}
+		PaymentTriggerHandler pth = new PaymentTriggerHandler();
+		if (Trigger.isInsert || Trigger.isUpdate) {
+			pth.updatePatient(Trigger.New, true);
+		}
+		if (Trigger.isDelete) {
+			pth.updatePatient(Trigger.Old, false);
+		}
          
     }
 
