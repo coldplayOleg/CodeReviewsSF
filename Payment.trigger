@@ -1,6 +1,6 @@
 trigger Payment on Payment__c (before insert, before update, before delete, after insert, after update, after delete, after undelete) {
     
-	if (Trigger.isAfter) {
+    if (Trigger.isAfter) {
         
         PaymentTriggerHandler pth = new PaymentTriggerHandler();
         if (Trigger.isInsert) {
