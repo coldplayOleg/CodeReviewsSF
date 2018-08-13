@@ -1,4 +1,4 @@
-<aura:component controller="UserController">
+<aura:component controller="UserController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
     
 	<aura:attribute name="searchUser" type="String" default=""/>    
     <aura:attribute name="listUsers" type="List[]" default=""/>
@@ -7,7 +7,7 @@
     <aura:attribute name="isNotUpdating" type="Boolean" default="true"/>
     
     <lightning:layout class="slds-page-header slds-page-header--object-home">
-        <lightning:layoutItem size="5">
+        <lightning:layoutItem size="18">
         	<div>
                 <form class="slds-form--stacked">
                     <lightning:input aura:id="usersearch" 
@@ -24,11 +24,14 @@
                     <aura:iteration items="{!v.listUsers}" var="oneUser" >
                         <form class="slds-form--stacked">    
                             <li>
-                                <lightning:card variant="Narrow" title="{!oneUser.Name}" iconName="standard:user" >
-                                    <aura:set attribute="actions">
-                                        <lightning:button label="Edit" variant="brand" value="{!oneUser.Username}" onclick="{!c.doEdit}"/>
-                                    </aura:set>
-                                </lightning:card>
+                                <div>
+                                    <lightning:button label="{!oneUser.Name}" variant="Base" 
+                                                      value="{!oneUser.Username}" onclick="{!c.doEdit}" >
+                                        <lightning:card variant="Narrow" title="{!oneUser.Name}" iconName="standard:user" >
+                                            <aura:set attribute="actions" />
+                                        </lightning:card>
+                                    </lightning:button>
+                                </div>
                             </li>
                         </form>
                     </aura:iteration>
