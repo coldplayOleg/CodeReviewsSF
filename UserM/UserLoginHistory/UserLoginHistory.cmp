@@ -1,0 +1,24 @@
+<aura:component >
+    
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="c:UserLoginHistoryEvent" action="{!c.handleEvent}" />
+
+    <aura:attribute name="userLoginHistory" type="LoginHistory[]" default=""/>
+    <aura:attribute name="columns" type="List"/>
+	
+    <aura:attribute name="isRender" type="Boolean" default="false"/>
+    
+   <aura:if isTrue="{!v.isRender}">
+            
+        <lightning:layout class="slds-page-header slds-page-header--object-home"> 
+            <lightning:card title="User Login History">
+                <lightning:datatable columns="{! v.columns }"
+                                     keyField="Id"
+                                     data="{! v.userLoginHistory }"
+                                     hideCheckboxColumn="true" />
+            </lightning:card>
+        </lightning:layout>
+        
+   </aura:if>
+
+</aura:component>

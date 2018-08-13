@@ -1,0 +1,87 @@
+<aura:component controller="UserController">
+	
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:attribute name="newUser" type="User" default="{'sobjectType': 'User',
+                                                        'FirstName': '',
+                                                        'LastName': '',
+                                                        'Username': '',
+                                                        'Email': ''}"/>
+    
+    <aura:attribute name="newProfile" type="String" default=""/>
+    <aura:attribute name="newLicense" type="String" default=""/>
+	<aura:attribute name="listProfiles" type="List" default=""/>
+	<aura:attribute name="listLicenses" type="List" default=""/>
+    <aura:attribute name="isCreating" type="Boolean" default="false"/>
+    
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem size="5">
+        <aura:if isTrue="{v.isCreating}" >
+        	<div class="exampleHolder">
+        		<lightning:spinner alternativeText="Loading" size="small" />
+    		</div>
+        <aura:set attribute="else">
+       		
+    		<div aria-labelledby="newexpenseform">
+        		<fieldset class="slds-box slds-theme--default slds-container--small">
+                    
+            <form class="slds-form--stacked">          
+			<p>Create new user:</p>
+            <lightning:input aura:id="userform" label="First Name"
+                             name="FirstName"
+                             value="{!v.newUser.FirstName}"
+                             required="false" type="text" />
+            
+            <lightning:input aura:id="userform" label="Last Name"
+                             name="LastName"
+                             value="{!v.newUser.LastName}"
+                             required="true" type="text"/>
+            
+            <lightning:input aura:id="userform" label="Username"
+                             name="Username"
+                             value="{!v.newUser.Username}"
+                             required="true" type="email"
+                             pattern="{!v.validEmail}"/>
+            
+            <lightning:input aura:id="userform" label="Email"
+                             name="Email"
+                             value="{!v.newUser.Email}"
+                             required="true" type="email"/>
+            
+            <lightning:select label="License" 
+                              name="licenseName"
+                              value="{!v.newLicense}"
+                              onchange="{! c.handleChangeLic }" >
+                <option value="" text="" />
+                <aura:iteration items="{!v.listLicenses}" var="licenseName"  >
+                    <option value="{!licenseName}" text="{!licenseName}" />
+            	</aura:iteration>
+    		</lightning:select>
+            
+            <lightning:select label="Profiles" 
+                              name="profilesName"
+                              value="{!v.newProfile}"
+                              onchange="{! c.handleChangeProf }" >
+                <aura:iteration items="{!v.listProfiles}" var="profileName"  >
+                    <option value="{!profilesName}" text="{!profileName}" />
+            	</aura:iteration>
+    		</lightning:select>
+            
+            <lightning:button label="Create User"
+                             class="slds-m-top--medium"
+                             variant="brand"
+                             onclick="{!c.clickCreate}"/>
+
+        </form>
+            
+         </fieldset>
+    		</div>  
+                    
+       	</aura:set>
+      </aura:if>
+     </lightning:layoutItem>
+
+
+	</lightning:layout>
+    
+    
+</aura:component>
