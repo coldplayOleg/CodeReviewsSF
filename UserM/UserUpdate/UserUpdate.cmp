@@ -8,7 +8,7 @@
     
     <lightning:layout class="slds-page-header slds-page-header--object-home">
         <lightning:layoutItem size="18">
-        	<div>
+        	<div  class="update">
                 <form class="slds-form--stacked">
                     <lightning:input aura:id="usersearch" 
                                      label="Search user" 
@@ -20,29 +20,32 @@
                 </form>
             </div>
             <aura:if isTrue="{!v.listUsers.length > 0}" >
+               <div>
                 <ul>
                     <aura:iteration items="{!v.listUsers}" var="oneUser" >
                         <form class="slds-form--stacked">    
                             <li>
-                                <div>
                                     <lightning:button label="{!oneUser.Name}" variant="Base" 
                                                       value="{!oneUser.Username}" onclick="{!c.doEdit}" >
-                                        <lightning:card variant="Narrow" title="{!oneUser.Name}" iconName="standard:user" >
-                                            <aura:set attribute="actions" />
-                                        </lightning:card>
+                                        <div class="update">
+                                            <lightning:card variant="Narrow" title="{!oneUser.Name}" iconName="standard:user" >
+                                                <aura:set attribute="actions" />
+                                            </lightning:card>
+                                        </div>
                                     </lightning:button>
-                                </div>
                             </li>
                         </form>
                     </aura:iteration>
                 </ul>
+               </div>
             </aura:if>
         	<br />
-            <div>
+            
                 <aura:if isTrue="{!v.currentUser}">
                     <aura:if isTrue="{!v.isNotUpdating}">
+                      <lightning:card title="Update user:">
                         <form class="slds-form--stacked">
-                            <p>Update user:</p>
+                           <div class="update">
                             <lightning:input aura:id="userform" label="Username" name="Username" value="{!v.currentUser.Username}" readonly="true"/>           
                             <lightning:input aura:id="userform" label="First Name" 
                                              name="FirstName" type="text"
@@ -59,15 +62,16 @@
                             </aura:if>
                             <lightning:button label="Show Login History" class="slds-m-top--medium"
                                                                     variant="brand" onclick="{!c.userLoginHistory}"/>
+                          </div>
                         </form>
+                      </lightning:card>
                    <aura:set attribute="else">
                         <div>
                             <lightning:spinner alternativeText="Loading" size="small" />
                         </div>
                    </aura:set>
-                   </aura:if>
+                 </aura:if>
                 </aura:if>
-            </div>
 		</lightning:layoutItem>
 	</lightning:layout>
     
