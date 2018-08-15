@@ -46,7 +46,7 @@
                             <lightning:select label="License" 
                                             name="licenseName"
                                             value="{!v.newLicense}"
-                                            onchange="{! c.handleChangeLic }" >
+                                            onchange="{! c.handleChangeLic }" required="true">
                                 <option value="" text="" />
                                 <aura:iteration items="{!v.listLicenses}" var="licenseName"  >
                                     <option value="{!licenseName}" text="{!licenseName}" />

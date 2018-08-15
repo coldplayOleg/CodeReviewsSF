@@ -16,9 +16,14 @@
 		var newLicense = component.get("v.newLicense");
         var newProfile = component.get("v.newProfile");
         var newUser = component.get("v.newUser");
-        console.log("saveUserH start");
-		
-        if(newUser.Username !== '' && newUser.Email !== '' && newUser.LastName !== '' && newLicense !== '' && newProfile !== '') {
+        
+		var allValid = component.find('userform').reduce(function (validSoFar, inputCmp) {
+            inputCmp.showHelpMessageIfInvalid();
+            return validSoFar && inputCmp.get('v.validity').valid;
+        }, true);
+
+        if (allValid && newUser.Username !== '' && newUser.Email !== '' && newUser.LastName !== '' && newLicense !== '' && newProfile !== '') {
+            console.log('All form entries look valid. Ready to submit!');
             component.set("v.isCreating", true);
             var action = component.get("c.saveUser");
             action.setParams({
