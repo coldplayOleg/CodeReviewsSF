@@ -28,74 +28,62 @@ global class PatientManager {
     }
     
     @HttpPost
-    global static List<String> createPatient() {
+    global static String createPatient(String name, String birthday, String lastName) {
         
-        List<String> infoPatient = new List<String>();
-        RestRequest req = RestContext.request;
-        String newPatientURL = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
-        List<String> NewPatient = newPatientURL.split(':', 3);
-        
-        if(NewPatient.size() == 3){
+        try {
+            Date.valueOf(birthday);
+        } catch(Exception e){
+            return 'Fail create, you have entered invalid Birthday';
+        }
+        if(name != null && name != '' && birthday != null && birthday != '' && lastName != null && lastName != ''){
         	Patient__c patient = new Patient__c();
             try {
-                patient = new Patient__c(Name = NewPatient.get(0), Birthday__c = Date.valueOf(NewPatient.get(1)), Last_Name__c = NewPatient.get(2));
+                patient = new Patient__c(Name = name, Birthday__c = Date.valueOf(birthday), Last_Name__c = lastName);
                 insert patient;  
             } catch(Exception e){
-                infoPatient.add('Fail create, you have entered invalid date: '+newPatientURL+', sample-> Name:YYYY-MM-dd:LastName');
-                return infoPatient;
+                return 'Fail create';
             }
-            
-			infoPatient.add('Created successfully!');
-            infoPatient.add('Id: '+patient.Id+', Name: '+patient.Name +', Birthday: '+patient.Birthday__c+', LastName: '+patient.Last_Name__c);
-            return infoPatient;
-            
+            return 'Created successfully! Id: '+patient.Id+', Name: '+patient.Name +', Birthday: '+patient.Birthday__c+', LastName: '+patient.Last_Name__c;
         } else {
-            infoPatient.add('Fail! Lost parameter, you have entered: '+newPatientURL+', sample-> Name:YYYY-MM-dd:LastName');
-            return infoPatient;
+            return 'Fail! Lost parameter';
         }
     }
     
     @HttpPATCH
-    global static List<String> updatePatient() {
-        
-        List<String> infoPatient = new List<String>();
-        RestRequest req = RestContext.request;
-        String newPatientURL = req.requestURI.substring(req.requestURI.lastIndexOf('/')+1);
-        List<String> NewPatient = newPatientURL.split(':', 4);
-        
-        if(NewPatient.size() != 4){
-        	infoPatient.add('Fail! Lost parameter, you have entered: '+newPatientURL+', sample-> Id:Name:YYYY-MM-dd:LastName');
-            return infoPatient;
+    global static String updatePatient(String patientId, String name, String birthday, String lastName) {
+                
+        if(patientId == null || patientId == ''){
+            return 'Fail! Lost Id.';
         }
         
-        List<Patient__c> patients = [SELECT Id, Name, Last_Name__c, Birthday__c  FROM Patient__c WHERE Id=:NewPatient.get(0) LIMIT 1];
+        List<Patient__c> patients = [SELECT Id, Name, Last_Name__c, Birthday__c  FROM Patient__c WHERE Id=:patientId LIMIT 1];
          
         if(patients.size() > 0){
             try{
-            	Date.valueOf(NewPatient.get(2));
+            	Date.valueOf(birthday);
             }catch(Exception e){
-                infoPatient.add('Fail! Invalid date, you have entered: '+newPatientURL+', sample-> Id:Name:YYYY-MM-dd:LastName');
-                return infoPatient;
+                return 'Fail! Invalid date value.';
             }
             
             Patient__c patient = patients.get(0);
-            patient.Name = NewPatient.get(1);
-            patient.Birthday__c = Date.valueOf(NewPatient.get(2));
-            patient.Last_Name__c = NewPatient.get(3);
+            if(name != ''){
+            	patient.Name = name;
+            }
+            if(birthday != ''){
+            	patient.Birthday__c = Date.valueOf(birthday);
+            }
+            if(lastName != ''){
+            	patient.Last_Name__c = lastName;
+            }
             
             try{
             	update patient;
             } catch(Exception e){
-                infoPatient.add('Fail updadte. Invalid date, you have entered: '+newPatientURL+', sample-> Id:Name:YYYY-MM-dd:LastName');
-                return infoPatient;
+                return 'Fail update';
             }
-            
-            infoPatient.add('Update successful!');
-            infoPatient.add('Id: '+patient.Id+', Name: '+patient.Name +', Birthday: '+patient.Birthday__c+', LastName: '+patient.Last_Name__c);
-            return infoPatient;
+            return 'Update successful! Id: '+patient.Id+', Name: '+patient.Name +', Birthday: '+patient.Birthday__c+', LastName: '+patient.Last_Name__c;
         } else {
-           infoPatient.add('Patient not found.');
-           return infoPatient;
+           return 'Patient not found.';
         }
     }
     
