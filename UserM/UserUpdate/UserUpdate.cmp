@@ -1,0 +1,78 @@
+<aura:component controller="UserController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    
+	<aura:attribute name="searchUser" type="String" default=""/>    
+    <aura:attribute name="listUsers" type="List[]" default=""/>
+    <aura:attribute name="currentUser" type="User" default=""/>    
+    <aura:attribute name="isSearching" type="Boolean" default="false"/>
+    <aura:attribute name="isNotUpdating" type="Boolean" default="true"/>
+    
+    <lightning:layout class="slds-page-header slds-page-header--object-home">
+        <lightning:layoutItem size="18">
+        	<div  class="update">
+                <form class="slds-form--stacked">
+                    <lightning:input aura:id="usersearch" 
+                                     label="Search user" 
+                                     name="searchUser" 
+                                     value="{!v.searchUser}" 
+                                     onchange="{!c.handleSearch}"
+                                     type="search"
+                                     isLoading="{! v.isSearching }"/>
+                </form>
+            </div>
+            <aura:if isTrue="{!v.listUsers.length > 0}" >
+               <div>
+                <ul>
+                    <aura:iteration items="{!v.listUsers}" var="oneUser" >
+                        <form class="slds-form--stacked">    
+                            <li>
+                                    <lightning:button label="{!oneUser.Name}" variant="Base" 
+                                                      value="{!oneUser.Username}" onclick="{!c.doEdit}" >
+                                        <div class="update">
+                                            <lightning:card variant="Narrow" title="{!oneUser.Name}" iconName="standard:user" >
+                                                <aura:set attribute="actions" />
+                                            </lightning:card>
+                                        </div>
+                                    </lightning:button>
+                            </li>
+                        </form>
+                    </aura:iteration>
+                </ul>
+               </div>
+            </aura:if>
+        	<br />
+            
+                <aura:if isTrue="{!v.currentUser}">
+                    <aura:if isTrue="{!v.isNotUpdating}">
+                      <lightning:card title="Update user:">
+                        <form class="slds-form--stacked">
+                           <div class="update">
+                            <lightning:input aura:id="userform" label="Username" name="Username" value="{!v.currentUser.Username}" readonly="true"/>           
+                            <lightning:input aura:id="userform" label="First Name" 
+                                             name="FirstName" type="text"
+                                             value="{!v.currentUser.FirstName}"/>
+                            
+                            <lightning:button label="Update" class="slds-m-top--medium" variant="brand" onclick="{!c.updateUser}"/>
+                            <aura:if isTrue="{!v.currentUser.IsActive}">
+                                <lightning:button class="slds-m-top--medium" variant="destructive" label="Deactivate" 
+                                                  title="Deactivate" onclick="{! c.activeUpdate }"/>
+                            <aura:set attribute="else">
+                                <lightning:button class="slds-m-top--medium" variant="success" label="Activate" 
+                                                  title="Activate" onclick="{! c.activeUpdate }" />
+                            </aura:set>
+                            </aura:if>
+                            <lightning:button label="Show Login History" class="slds-m-top--medium"
+                                                                    variant="brand" onclick="{!c.userLoginHistory}"/>
+                          </div>
+                        </form>
+                      </lightning:card>
+                   <aura:set attribute="else">
+                        <div>
+                            <lightning:spinner alternativeText="Loading" size="small" />
+                        </div>
+                   </aura:set>
+                 </aura:if>
+                </aura:if>
+		</lightning:layoutItem>
+	</lightning:layout>
+    
+</aura:component>
